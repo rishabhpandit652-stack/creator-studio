@@ -119,6 +119,7 @@ input[type=range]{padding:0}input[type=color]{height:34px;padding:2px}textarea{m
 <nav id="bnav"><button data-v="home" class="on"><svg class="i"><use href="#i-home"/></svg>Home</button><button data-v="chat"><svg class="i"><use href="#i-chat"/></svg>Chat</button><button data-v="thumb"><svg class="i"><use href="#i-img"/></svg>Thumbnail</button><button data-v="cap"><svg class="i"><use href="#i-cc"/></svg>Captions</button><button data-v="enh"><svg class="i"><use href="#i-up"/></svg>Enhance</button></nav>
 
 <script>
+var kind='thumb';
 const $=id=>document.getElementById(id);
 function go(v){document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==v));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v==v))}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
@@ -226,10 +227,11 @@ for(let i=0;i<list.length;i++){if(id!=buildId)return;$('ps').innerHTML='<span cl
   layers.push({t:'img',im,x:W*slots[i][0],y:H*slots[i][1]-s*.1,w:im.width/im.height*s,h:s,glow:16,gc:bg.accent});draw();break}catch(e){await sleep(16000)}}
  await sleep(15500)}
 if(id==buildId)$('ps').textContent=''}
+function a6(c){c=c||'#ffffff';if(/^#[0-9a-f]{3}$/i.test(c))c='#'+c[1]+c[1]+c[2]+c[2]+c[3]+c[3];return /^#[0-9a-f]{6}$/i.test(c)?c:'#ffffff'}
 function draw(c=T,W=TC.width,H=TC.height,sl=true){c.save();c.filter=`brightness(${adj.b}) contrast(${adj.k})`;
 const g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,bg.c1);g.addColorStop(1,bg.c2);c.fillStyle=g;c.fillRect(0,0,W,H);
 if(bg.userImg){const r=Math.max(W/bg.userImg.width,H/bg.userImg.height);c.drawImage(bg.userImg,(W-bg.userImg.width*r)/2,(H-bg.userImg.height*r)/2,bg.userImg.width*r,bg.userImg.height*r);c.fillStyle='#0006';c.fillRect(0,0,W,H)}
-const rg=c.createRadialGradient(W*.75,H*.45,10,W*.75,H*.45,W*.5);rg.addColorStop(0,(bg.accent||'#fff')+'66');rg.addColorStop(1,'#0000');c.fillStyle=rg;c.fillRect(0,0,W,H);
+const rg=c.createRadialGradient(W*.75,H*.45,10,W*.75,H*.45,W*.5);rg.addColorStop(0,a6(bg.accent)+'66');rg.addColorStop(1,'#0000');c.fillStyle=rg;c.fillRect(0,0,W,H);
 const vg=c.createRadialGradient(W/2,H/2,H*.4,W/2,H/2,W*.75);vg.addColorStop(0,'#0000');vg.addColorStop(1,'#0008');c.fillStyle=vg;c.fillRect(0,0,W,H);
 layers.forEach(l=>{c.save();c.shadowColor=l.glow?l.gc||'#fff':'#0009';c.shadowBlur=l.glow||14;c.shadowOffsetY=l.glow?0:6;
 if(l.t=='img')c.drawImage(l.im,l.x,l.y,l.w,l.h);else if(l.t=='arrow')arrow(c,l);else{c.font=`${l.f=='Inter'?'':'900 '}${l.sz}px ${l.f}`;c.textAlign=l.al||'left';c.textBaseline='top';if(l.stroke){c.lineWidth=l.stroke;c.strokeStyle='#000';c.lineJoin='round';c.strokeText(l.s,l.x,l.y)}c.fillStyle=l.c;c.fillText(l.s,l.x,l.y)}
@@ -281,7 +283,6 @@ try{const m=await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal
 const bl=await new Promise(r=>c.toBlob(r,'image/png')),out=await (m.removeBackground||m.default)(bl),im=new Image(),l=sel;im.onload=()=>{l.im=im;draw();$('gs').textContent='Background removed.'};im.src=URL.createObjectURL(out)}catch(e){$('gs').textContent='Error: '+e.message}busy(b,false)};
 api('/api/status').then(s=>{$('stat').innerHTML='Server: '+Object.entries(s).map(([k,v])=>(v?'OK: ':'Missing: ')+k).join(' · ')+(Object.values(s).includes(false)?'<br>Missing = add the key in <code>.env</code> on the server.':'')}).catch(()=>$('stat').textContent='Backend not reachable. Run it with: npm start');
 draw();
-let kind='thumb';
 const ARS={thumb:[['1280x720','16:9 (1280x720)'],['1080x1080','1:1'],['1080x1920','9:16'],['1080x1350','4:5']],poster:[['1080x1620','2:3 poster'],['1080x1440','3:4'],['1240x1754','A-series'],['1080x1920','9:16'],['1080x1080','1:1']]};
 function setKind(k){kind=k;document.querySelectorAll('#kd .chip').forEach(c=>c.classList.toggle('on',c.dataset.k==k));$('ar').innerHTML=ARS[k].map(a=>`<option value="${a[0]}">${a[1]}</option>`).join('');
 aiPlan=null;vlist=[];layers=[];sel=null;buildId++;$('vars').innerHTML='';$('ps').textContent='';
