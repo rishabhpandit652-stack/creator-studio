@@ -3,64 +3,80 @@
 <link rel="manifest" href="/manifest.json"><meta name="theme-color" content="#0a0e1f"><link rel="apple-touch-icon" href="/icon-192.png"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Creator Studio AI</title>
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0a0e1f;--card:#121833;--line:#252d57;--tx:#e8ecff;--mu:#8e98c9;--ac:#7c6cff;--ac2:#3ea6ff;color-scheme:dark}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 80% -10%,#2a2170 0,transparent 60%),var(--bg);color:var(--tx);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
-header{display:flex;align-items:center;gap:12px;padding:12px 16px;flex-wrap:wrap}
-.logo{font-weight:800;font-size:18px;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;color:transparent}
-nav{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;position:relative;margin-left:auto}
-nav button{border:0;background:none;color:var(--mu);padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:600;position:relative;z-index:1;transition:.25s}
-nav button.on{color:#fff;background:linear-gradient(90deg,var(--ac),var(--ac2));box-shadow:0 4px 18px #7c6cff55}
-main{padding:0 16px 40px;max-width:1280px;margin:auto}
-.view{display:none;animation:in .35s ease}.view.on{display:block}@keyframes in{from{opacity:0;transform:translateY(10px)}}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0}
-.tool{background:linear-gradient(145deg,#1a2150,#10152e);border:1px solid var(--line);border-radius:20px;padding:24px;cursor:pointer;transition:.3s;position:relative;overflow:hidden}
-.tool:hover{transform:translateY(-4px);border-color:var(--ac);box-shadow:0 12px 40px #7c6cff33}
-.tool h3{margin:8px 0 6px;font-size:20px}.tool p{color:var(--mu);margin:0}.ico{font-size:34px}
-.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:16px}
-@media(max-width:860px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
-h4{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu)}
+:root{box-sizing:border-box;--bg:#050507;--card:#141418;--card2:#1c1c24;--line:#26262e;--tx:#f4f4f6;--mu:#8b8b98;--ac:#3be8ff;--ac2:#7a5cff;color-scheme:dark;padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+.top{padding:14px 16px 6px;max-width:1100px;margin:auto;font-weight:700;font-size:17px}
+main{padding:0 14px 100px;max-width:1100px;margin:auto}
+.view{display:none;animation:in .3s ease}.view.on{display:block}@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.i{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#bnav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:#0b0b0e;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:20}
+#bnav button{flex:1;max-width:120px;border:0;background:none;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;cursor:pointer;padding:4px 0}
+#bnav button.on{color:#fff}#bnav button.on .i{stroke:var(--ac)}
+.hero{border-radius:22px;padding:22px;min-height:140px;margin:8px 0 12px;background:radial-gradient(140px 100px at 85% 25%,#7a5cff99,transparent 70%),radial-gradient(180px 120px at 15% 95%,#19c2ff66,transparent 70%),#0c0c12;border:1px solid var(--line)}
+.hero h1{margin:0 0 4px;font-size:26px}.hero p{margin:0;color:#b9b9c6}
+.big{background:linear-gradient(180deg,#1c1c28,#12121a);border:1px solid var(--line);border-radius:20px;padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:.2s;margin-bottom:12px}
+.big:hover{border-color:var(--ac);transform:translateY(-2px)}.big b{font-size:17px}.big span{color:var(--mu);font-size:12px}.big .i{width:32px;height:32px;color:var(--ac)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pair .big{margin:0}
+h3{margin:18px 0 8px;font-size:16px}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.tools div{text-align:center;padding:14px 4px;cursor:pointer;font-size:12px;border-radius:14px}.tools div:hover{background:var(--card)}.tools .i{display:block;margin:0 auto 6px;width:28px;height:28px}
+.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:14px}@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+h4{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu)}
 label{display:block;font-size:12px;color:var(--mu);margin:8px 0 3px}
-input,select,textarea{width:100%;background:#0b1028;color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:8px;font:inherit}
-input[type=range]{padding:0}input[type=color]{height:34px;padding:2px}
-textarea{min-height:80px;resize:vertical}
-.btn{border:1px solid var(--line);background:#1b2350;color:var(--tx);padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:600;transition:.2s}
-.btn:hover{border-color:var(--ac);transform:translateY(-1px)}.btn.p{background:linear-gradient(90deg,var(--ac),var(--ac2));border:0}
-.btn:disabled{opacity:.4;cursor:not-allowed}
+input,select,textarea{width:100%;background:#0b0b10;color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:9px;font:inherit}
+input[type=range]{padding:0}input[type=color]{height:34px;padding:2px}textarea{min-height:80px;resize:vertical}
+.btn{border:1px solid var(--line);background:var(--card2);color:var(--tx);padding:9px 14px;border-radius:12px;cursor:pointer;font-weight:600;transition:.2s}
+.btn:hover{border-color:var(--ac)}.btn.p{background:#fff;color:#000;border:0}.btn:disabled{opacity:.4;cursor:not-allowed}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1 1 auto}.row .btn{flex:0 0 auto}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stage{position:relative;background:#000;border-radius:12px;overflow:hidden}
-.stage video,.stage canvas{display:block;width:100%}.stage canvas.ov{position:absolute;inset:0;pointer-events:none;height:100%}
-.cue{display:grid;grid-template-columns:62px 62px 1fr 28px;gap:4px;margin-bottom:4px;align-items:center}
-.cue input{padding:5px;font-size:12px}
-#tl{height:46px;width:100%;background:#0b1028;border-radius:8px;position:relative;cursor:pointer;overflow:hidden}
-#tl i{position:absolute;top:8px;height:30px;background:#7c6cff88;border:1px solid var(--ac);border-radius:4px}
-#tl b{position:absolute;top:0;width:2px;height:100%;background:#fff}
-.note{background:#2a2410;border:1px solid #5b4a14;color:#f1d98a;border-radius:10px;padding:8px 10px;font-size:12px;margin:8px 0}
-.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:#0b1028;cursor:pointer;font-size:12px;color:var(--mu)}.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-.spin{width:18px;height:18px;border:3px solid #fff3;border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite;display:inline-block;vertical-align:middle}@keyframes s{to{transform:rotate(360deg)}}
-.bar{height:6px;background:#0b1028;border-radius:9px;overflow:hidden}.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));transition:.2s}
-#tc{width:100%;max-width:100%;border-radius:12px;background:#000;touch-action:none;cursor:move}
-.vars{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}.vars canvas{width:100%;border-radius:8px;cursor:pointer;border:2px solid transparent}.vars canvas.on{border-color:var(--ac)}
+.stage{position:relative;background:#000;border-radius:14px;overflow:hidden}.stage video,.stage canvas{display:block;width:100%}.stage canvas.ov{position:absolute;inset:0;pointer-events:none;height:100%}
+.cue{display:grid;grid-template-columns:62px 62px 1fr 28px;gap:4px;margin-bottom:4px;align-items:center}.cue input{padding:5px;font-size:12px}
+#tl{height:46px;width:100%;background:#0b0b10;border-radius:10px;position:relative;cursor:pointer;overflow:hidden}
+#tl i{position:absolute;top:8px;height:30px;background:#3be8ff55;border:1px solid var(--ac);border-radius:4px}#tl b{position:absolute;top:0;width:2px;height:100%;background:#fff}
+.note{background:#17171d;border:1px solid var(--line);color:#c9c9d6;border-radius:12px;padding:9px 11px;font-size:12px;margin:8px 0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:#0b0b10;cursor:pointer;font-size:12px;color:var(--mu)}.chip.on{background:#fff;color:#000;border-color:#fff}
+.spin{width:16px;height:16px;border:3px solid #fff3;border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite;display:inline-block;vertical-align:middle}@keyframes s{to{transform:rotate(360deg)}}
+.bar{height:6px;background:#0b0b10;border-radius:9px;overflow:hidden}.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--ac2),var(--ac));transition:.2s}
+#tc{width:100%;max-width:100%;border-radius:14px;background:#000;touch-action:none;cursor:move}
+.vars{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}.vars canvas{width:100%;border-radius:10px;cursor:pointer;border:2px solid transparent}.vars canvas.on{border-color:var(--ac)}
+#msgs{height:52vh;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:4px}
+.m{max-width:90%;padding:10px 12px;border-radius:16px;word-wrap:break-word}.m.me{align-self:flex-end;background:#2b2b38}.m.ai{align-self:flex-start;background:var(--card2)}
+.lnk{background:none;border:0;color:var(--ac);font-size:12px;padding:6px 0 0;cursor:pointer}.empty{color:var(--mu);margin:auto;text-align:center;padding:20px}
+.chk{background:repeating-conic-gradient(#222 0 25%,#333 0 50%) 0 0/20px 20px;border-radius:12px;overflow:hidden}.chk img,.chk canvas,#ev{width:100%;display:block}
 </style></head><body>
-<header><div class="logo">✦ Creator Studio AI</div>
-<nav id="nav"><button data-v="home" class="on">Home</button><button data-v="cap">Captions</button><button data-v="thumb">Thumbnails</button></nav></header>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 4h16v12H9l-5 4z"/></symbol>
+<symbol id="i-img" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M4 18l5-5 4 4 3-3 4 4"/></symbol>
+<symbol id="i-cc" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10.5 10.2a2 2 0 100 3.6M16.5 10.2a2 2 0 100 3.6"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/></symbol>
+<symbol id="i-poster" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h6M9 12h6"/></symbol>
+</defs></svg><div class="top">Creator Studio AI</div>
 <main>
 <section class="view on" id="home">
-<div class="cards">
-<div class="tool" onclick="go('cap')"><div class="ico">🎬</div><h3>AI Caption &amp; Subtitle Studio</h3><p>Edit, style, animate and burn subtitles into video. Export SRT / VTT.</p></div>
-<div class="tool" onclick="go('thumb')"><div class="ico">🖼️</div><h3>AI Clickable Thumbnail Maker</h3><p>Describe your video — AI plans a custom composition you can edit and export.</p></div></div>
-<div class="card"><h4>Recent projects</h4><div id="recent" style="color:var(--mu)">No projects yet.</div></div>
-<div class="card"><h4>Integration status</h4><div class="note" id="stat">Checking server…</div></div>
+<div class="hero"><h1>Create. Caption. Publish.</h1><p>Chat, thumbnails, posters, subtitles and enhancement in one place.</p></div>
+<div class="big" onclick="go('chat')"><svg class="i"><use href="#i-chat"/></svg><b>Chat</b><span>Ask AI for video ideas, titles, descriptions and hashtags</span></div>
+<div class="pair"><div class="big" onclick="go('thumb')"><svg class="i"><use href="#i-img"/></svg><b>Thumbnail &amp; Poster</b><span>Design clickable covers</span></div>
+<div class="big" onclick="go('cap')"><svg class="i"><use href="#i-cc"/></svg><b>AI Caption &amp; Subtitle</b><span>Animated subtitles</span></div></div>
+<h3>Popular tools</h3>
+<div class="tools"><div onclick="go('cap')"><svg class="i"><use href="#i-cc"/></svg>Auto captions</div><div onclick="go('thumb');setKind('thumb')"><svg class="i"><use href="#i-img"/></svg>Thumbnail</div><div onclick="go('thumb');setKind('poster')"><svg class="i"><use href="#i-poster"/></svg>Poster</div>
+<div onclick="go('enh');setEm('img')"><svg class="i"><use href="#i-up"/></svg>Enhance 4K</div><div onclick="go('enh');setEm('bg')"><svg class="i"><use href="#i-user"/></svg>Remove background</div><div onclick="go('chat')"><svg class="i"><use href="#i-chat"/></svg>Chat</div></div>
+<h3>Recent</h3><div class="card" id="recent" style="color:var(--mu)">No projects yet.</div>
+<div class="card"><h4>Server status</h4><div class="note" id="stat">Checking server...</div></div>
 </section>
 
+<section class="view" id="chat"><div class="card"><div id="msgs"></div>
+<div class="chips" id="qs" style="margin:8px 0"><span class="chip">Give me 10 video title ideas</span><span class="chip">Write a description with hashtags</span><span class="chip">Suggest thumbnail headlines</span></div>
+<div class="row"><textarea id="cin" rows="1" style="min-height:44px;flex:1 1 200px" placeholder="Message"></textarea><button class="btn p" id="csend">Send</button><button class="btn" id="cclr">Clear</button></div></div></section>
+
 <section class="view" id="cap"><div class="grid"><div>
-<div class="card"><div class="row"><input type="file" id="vf" accept="video/*,audio/*"><button class="btn" id="pp">Play / Pause</button><button class="btn" id="un">↶</button><button class="btn" id="re">↷</button></div>
+<div class="card"><div class="row"><input type="file" id="vf" accept="video/*,audio/*"><button class="btn" id="pp">Play / Pause</button><button class="btn" id="un">Undo</button><button class="btn" id="re">Redo</button></div>
 <div class="stage" style="margin-top:10px"><video id="vid" playsinline controls></video><canvas id="ov" class="ov"></canvas></div>
 <div id="tl" style="margin-top:10px"><b id="ph"></b></div></div>
 <div class="card"><h4>Subtitle lines</h4>
-<div class="row"><select id="lg" style="max-width:150px"><option value="auto">Auto-detect</option><option value="en">English</option><option value="hi">Hindi (देवनागरी)</option><option value="hinglish">Hinglish (Roman)</option></select><button class="btn p" id="tr">✨ Auto-generate subtitles</button></div><div class="note">Manual lines and .srt import also work.</div>
+<div class="row"><select id="lg" style="max-width:150px"><option value="auto">Auto-detect</option><option value="en">English</option><option value="hi">Hindi (देवनागरी)</option><option value="hinglish">Hinglish (Roman)</option></select><button class="btn p" id="tr">Auto-generate subtitles</button></div><div class="note">Manual lines and .srt import also work.</div>
 <div class="row"><button class="btn" id="add">+ Line at playhead</button><label class="btn" style="margin:0">Import SRT<input type="file" id="srt" accept=".srt,.vtt,.txt" hidden></label><button class="btn" id="xs">Export SRT</button><button class="btn" id="xv">Export VTT</button><button class="btn p" id="xb">Export video (burned-in)</button></div>
 <div class="bar" style="margin-top:8px"><div id="pg"></div></div><div id="st" style="color:var(--mu);font-size:12px;margin:4px 0"></div>
 <div id="cues"></div></div></div>
@@ -75,7 +91,7 @@ textarea{min-height:80px;resize:vertical}
 <div><label>BG opacity</label><input type="range" id="bgo" min="0" max="1" step=".05" value="0"></div><div><label>Outline</label><input type="range" id="ol" min="0" max="12" value="6"></div>
 <div><label>Outline color</label><input type="color" id="oc" value="#000000"></div><div><label>Shadow</label><input type="range" id="sh" min="0" max="30" value="8"></div></div></div></div></div></section>
 
-<section class="view" id="thumb"><div class="grid"><div>
+<section class="view" id="thumb"><div class="chips" id="kd" style="margin:6px 0 12px"><span class="chip on" data-k="thumb">Thumbnail</span><span class="chip" data-k="poster">Poster</span></div><div class="grid"><div>
 <div class="card"><canvas id="tc" width="1280" height="720"></canvas>
 <div class="row" style="margin-top:8px"><button class="btn p" id="dp">Download PNG</button><button class="btn" id="dj">Download JPG</button><select id="ar" style="max-width:130px"><option value="1280x720">16:9 (1280×720)</option><option value="1080x1080">1:1</option><option value="1080x1920">9:16</option><option value="1080x1350">4:5</option></select></div>
 <h4 style="margin-top:12px">Variations</h4><div class="vars" id="vars"></div></div></div>
@@ -84,13 +100,24 @@ textarea{min-height:80px;resize:vertical}
 <label>Reference photo (optional)</label><input type="file" id="rf" accept="image/*">
 <label>Explain your video</label><textarea id="br" placeholder="e.g. I tested every budget phone under ₹15,000 and one shocked me"></textarea>
 <label>Style</label><select id="sty"><option>Auto (AI chooses)</option><option>Professional YouTube</option><option>Cinematic</option><option>Gaming</option><option>Tech</option><option>Documentary</option><option>Challenge</option><option>Mystery</option><option>Luxury</option><option>Minimal</option><option>Reaction</option><option>Entertainment</option></select>
-<div class="row" style="margin-top:8px"><button class="btn p" id="gen">Generate</button><button class="btn" id="more">3 more variations</button></div><div id="gs" style="color:var(--mu);font-size:12px;margin-top:6px"></div>
-<div class="row"><button class="btn" id="gb">🎨 AI background</button><button class="btn" id="rb">✂️ Remove BG (selected image)</button></div></div>
+<div class="row" style="margin-top:8px"><button class="btn p" id="gen">Generate</button><button class="btn" id="more">3 more variations</button></div><div id="gs" style="color:var(--mu);font-size:12px;margin-top:6px"></div><div id="ps" style="color:var(--mu);font-size:12px;margin-top:4px"></div>
+<div class="row"><button class="btn" id="gb">AI background</button><button class="btn" id="rb">Remove BG (selected image)</button></div></div>
 <div class="card"><h4>Edit selected</h4><label>Text</label><input id="et"><div class="two"><div><label>Font</label><select id="ef"><option>Impact</option><option>Arial Black</option><option>Inter</option><option>Georgia</option><option>Trebuchet MS</option></select></div><div><label>Color</label><input type="color" id="ec"></div>
 <div><label>Size</label><input type="range" id="esz" min="20" max="900" value="100"></div><div><label>Glow</label><input type="range" id="eg" min="0" max="80" value="0"></div></div>
 <div class="row" style="margin-top:8px"><button class="btn" id="ad">+ Text</button><label class="btn" style="margin:0">+ PNG/Image<input type="file" id="ai" accept="image/*" hidden></label><button class="btn" id="rm">Delete</button><label class="btn" style="margin:0">Background<input type="file" id="bi" accept="image/*" hidden></label></div>
 <div class="two"><div><label>Brightness</label><input type="range" id="eb" min=".5" max="1.6" step=".05" value="1"></div><div><label>Contrast</label><input type="range" id="ek" min=".5" max="1.8" step=".05" value="1"></div></div></div></div></div></section>
+
+<section class="view" id="enh"><div class="chips" id="em" style="margin:6px 0 12px"><span class="chip on" data-m="img">Image upscale</span><span class="chip" data-m="vid">Video upscale</span><span class="chip" data-m="bg">Remove background</span></div>
+<div class="card"><div class="note">Smart upscale = high-quality resize + sharpening. It does not invent new detail like AI upscalers; true AI upscaling needs a paid GPU service. 8K video is not offered because phones cannot encode it reliably.</div>
+<div id="p-img"><input type="file" id="ei" accept="image/*"><div class="two"><div><label>Scale</label><select id="es"><option value="2">2x</option><option value="3">3x</option><option value="4" selected>4x</option></select></div><div><label>Sharpness</label><input type="range" id="esh" min="0" max="1" step=".05" value=".4"></div></div>
+<div class="row" style="margin-top:8px"><button class="btn p" id="eup">Upscale</button><button class="btn" id="edp">Download PNG</button><button class="btn" id="edj">Download JPG</button></div>
+<div id="eis" style="color:var(--mu);font-size:12px;margin:6px 0"></div><canvas id="eo" style="width:100%;border-radius:12px;display:none"></canvas></div>
+<div id="p-vid" style="display:none"><input type="file" id="ev" accept="video/*"><div class="two"><div><label>Target resolution</label><select id="evh"><option value="1080">1080p</option><option value="1440">1440p (2K)</option><option value="2160">2160p (4K)</option></select></div><div><label>Sharpness</label><input type="range" id="evs" min="0" max="1" step=".1" value=".3"></div></div>
+<div class="row" style="margin-top:8px"><button class="btn p" id="evb">Upscale video</button></div><div class="bar" style="margin-top:8px"><div id="evp"></div></div><div id="evt" style="color:var(--mu);font-size:12px;margin:6px 0"></div></div>
+<div id="p-bg" style="display:none"><input type="file" id="bf" accept="image/*"><div class="row" style="margin-top:8px"><button class="btn p" id="bgo2">Remove background</button><button class="btn" id="bgd">Download PNG</button></div><div id="bgs" style="color:var(--mu);font-size:12px;margin:6px 0"></div><div class="chk" id="bgv" style="display:none"></div></div></div></section>
 </main>
+<nav id="bnav"><button data-v="home" class="on"><svg class="i"><use href="#i-home"/></svg>Home</button><button data-v="chat"><svg class="i"><use href="#i-chat"/></svg>Chat</button><button data-v="thumb"><svg class="i"><use href="#i-img"/></svg>Thumbnail</button><button data-v="cap"><svg class="i"><use href="#i-cc"/></svg>Captions</button><button data-v="enh"><svg class="i"><use href="#i-up"/></svg>Enhance</button></nav>
+
 <script>
 const $=id=>document.getElementById(id);
 function go(v){document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==v));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v==v))}
@@ -104,14 +131,14 @@ const parseT=s=>{const m=s.trim().match(/(\d+):(\d+):(\d+)[.,](\d+)/);return m?+
 /* ===== CAPTIONS ===== */
 const V=$('vid'),OV=$('ov'),X=OV.getContext('2d');
 let cues=[],hist=[],fut=[],anim='Word by Word',raf;
-const ANIMS=['Word by Word','Karaoke','Pop Up','Smooth Fade','Slide Up','Bounce','Typewriter','Highlight','Zoom In','Glitch','Elastic','Professional Minimal'];
+const ANIMS=['Word by Word','Karaoke','Pop Up','Smooth Fade','Slide Up','Bounce','Typewriter','Highlight','Zoom In','Glitch','Elastic','Professional Minimal','Slam','Rapid Fire','Shake','Neon Flicker'];
 $('an').innerHTML=ANIMS.map(a=>`<span class="chip${a==anim?' on':''}">${a}</span>`).join('');
 $('an').onclick=e=>{if(e.target.className.includes('chip')){anim=e.target.textContent;[...$('an').children].forEach(c=>c.classList.toggle('on',c==e.target))}};
 const PRE={Classic:{ff:'Inter',fw:800,c1:'#ffffff',c2:'#ffffff',ol:6,bgo:0},Viral:{ff:'Impact',fw:800,c1:'#ffe600',c2:'#ff6a00',ol:8,bgo:0},Box:{ff:'Inter',fw:600,c1:'#ffffff',c2:'#ffffff',ol:0,bgo:.7},Neon:{ff:'Trebuchet MS',fw:800,c1:'#00f0ff',c2:'#b44cff',ol:2,bgo:0},Minimal:{ff:'Georgia',fw:400,c1:'#ffffff',c2:'#ffffff',ol:0,bgo:.35},Gold:{ff:'Georgia',fw:800,c1:'#ffd86b',c2:'#c58b1b',ol:4,bgo:0}};
 $('pre').innerHTML=Object.keys(PRE).map(k=>`<span class="chip">${k}</span>`).join('');
 $('pre').onclick=e=>{const p=PRE[e.target.textContent];if(p)for(const k in p)$(k).value=p[k]};
 function snap(){hist.push(JSON.stringify(cues));if(hist.length>80)hist.shift();fut=[]}
-function renderCues(){$('cues').innerHTML='';cues.forEach((c,i)=>{const d=document.createElement('div');d.className='cue';d.innerHTML=`<input value="${c.s.toFixed(2)}"><input value="${c.e.toFixed(2)}"><input>`+`<button class="btn" style="padding:2px 6px">✕</button>`;const[a,b,t,x]=d.children;t.value=c.t;
+function renderCues(){$('cues').innerHTML='';cues.forEach((c,i)=>{const d=document.createElement('div');d.className='cue';d.innerHTML=`<input value="${c.s.toFixed(2)}"><input value="${c.e.toFixed(2)}"><input>`+`<button class="btn" style="padding:2px 6px"></button>`;const[a,b,t,x]=d.children;t.value=c.t;
 a.onchange=()=>{snap();c.s=+a.value;tl()};b.onchange=()=>{snap();c.e=+b.value;tl()};t.onchange=()=>{snap();c.t=t.value};x.onclick=()=>{snap();cues.splice(i,1);renderCues()};$('cues').appendChild(d)});tl()}
 function tl(){const D=V.duration||Math.max(10,...cues.map(c=>c.e),10);$('tl').querySelectorAll('i').forEach(i=>i.remove());cues.forEach(c=>{const i=document.createElement('i');i.style.left=c.s/D*100+'%';i.style.width=Math.max(.5,(c.e-c.s)/D*100)+'%';$('tl').appendChild(i)})}
 $('tl').onclick=e=>{const r=$('tl').getBoundingClientRect();V.currentTime=(e.clientX-r.left)/r.width*(V.duration||0)};
@@ -127,7 +154,7 @@ const ease=t=>1-Math.pow(1-t,3),elastic=t=>t==0||t==1?t:Math.pow(2,-10*t)*Math.s
 function drawCue(ctx,W,H,c,time){
 const sc=H/720,S=+$('sp').value,I=+$('it').value,fs=+$('fs').value*sc,ff=$('ff').value,fw=$('fw').value;
 const p=Math.min(1,(time-c.s)*S/.5),words=c.t.split(/\s+/),dur=c.e-c.s,prog=Math.min(1,(time-c.s)/dur);
-let alpha=1,dy=0,scale=1,vis=words.length,hl=-1,text=c.t;
+let alpha=1,dy=0,scale=1,vis=words.length,hl=-1,text=c.t,sx=0;
 switch(anim){case'Word by Word':vis=Math.max(1,Math.ceil(prog*words.length*S*1.3));break;
 case'Karaoke':hl=Math.min(words.length-1,Math.floor(prog*words.length));break;
 case'Pop Up':scale=.5+.5*elastic(p)*(I>0?1:0)+.0;scale=1+(elastic(p)-1)*.5*I;break;
@@ -135,7 +162,10 @@ case'Smooth Fade':alpha=ease(p);break;case'Slide Up':dy=(1-ease(p))*60*sc*I;alph
 case'Bounce':dy=-Math.abs(Math.sin(p*Math.PI*2))*(1-p)*50*sc*I;break;
 case'Typewriter':text=c.t.slice(0,Math.ceil(c.t.length*Math.min(1,prog*S*1.6)));break;
 case'Highlight':hl=-2;break;case'Zoom In':scale=1+(1-ease(p))*.8*I;alpha=p;break;
-case'Elastic':scale=Math.max(.01,elastic(p)*(1+.0));break;case'Professional Minimal':alpha=ease(p);dy=(1-ease(p))*10*sc;break;case'Glitch':break}
+case'Elastic':scale=Math.max(.01,elastic(p)*(1+.0));break;case'Professional Minimal':alpha=ease(p);dy=(1-ease(p))*10*sc;break;case'Slam':scale=1+(1-ease(Math.min(1,p*2)))*1.3*I;alpha=Math.min(1,p*4);sx=(Math.random()-.5)*26*sc*I*(1-p);dy=(Math.random()-.5)*16*sc*I*(1-p);break;
+case'Rapid Fire':{const n=words.length,ci=Math.min(n-1,Math.floor(prog*n)),wp=(prog*n)%1;text=words[ci];hl=0;scale=1+(1-ease(Math.min(1,wp*5)))*.4*I;break}
+case'Shake':sx=(Math.random()-.5)*12*sc*I;dy=(Math.random()-.5)*8*sc*I;break;
+case'Neon Flicker':if(Math.random()<.1*I)alpha=.35;break;case'Glitch':break}
 if(anim=='Word by Word')text=words.slice(0,vis).join(' ');
 ctx.save();ctx.globalAlpha=alpha;ctx.font=`${fw} ${fs}px ${ff}`;ctx.textAlign='center';ctx.textBaseline='middle';try{ctx.letterSpacing=($('cs').value*sc)+'px'}catch(e){}
 const maxW=W*.86,lines=[];let cur='';text.split(/\s+/).forEach(w=>{const t=cur?cur+' '+w:w;if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w}else cur=t});lines.push(cur);
@@ -143,12 +173,12 @@ const lh=fs*$('ls').value,cx=W/2,cy=H*$('py').value/100+dy-(lines.length-1)*lh/2
 ctx.translate(cx,cy);ctx.scale(scale,scale);ctx.translate(-cx,-cy);
 const bw=Math.max(...lines.map(l=>ctx.measureText(l).width));
 if(+$('bgo').value>0){ctx.fillStyle=$('bgc').value;ctx.globalAlpha=alpha*$('bgo').value;const r=fs*.3;ctx.beginPath();ctx.roundRect(cx-bw/2-r,cy-lh/2-r/2,bw+2*r,lines.length*lh+r,r);ctx.fill();ctx.globalAlpha=alpha}
-let wi=0;lines.forEach((l,i)=>{const y=cy+i*lh;let ox=0;if(anim=='Glitch'&&Math.random()<.25*I)ox=(Math.random()-.5)*14*sc;
+let wi=0;lines.forEach((l,i)=>{const y=cy+i*lh;let ox=0;if(anim=='Glitch'&&Math.random()<.25*I)ox=(Math.random()-.5)*14*sc;ox+=sx;
 const g=ctx.createLinearGradient(0,y-fs/2,0,y+fs/2);g.addColorStop(0,$('c1').value);g.addColorStop(1,$('c2').value);
 const ws=l.split(' '),tw=ctx.measureText(l).width;let x=cx-tw/2+ox;ctx.textAlign='left';
 ws.forEach(w=>{const ww=ctx.measureText(w).width;const on=hl==wi||hl==-2&&wi<=Math.floor(prog*words.length*1.2);
 if(+$('ol').value>0){ctx.lineWidth=$('ol').value*sc;ctx.strokeStyle=$('oc').value;ctx.lineJoin='round';ctx.strokeText(w,x,y)}
-ctx.shadowColor='#000b';ctx.shadowBlur=$('sh').value*sc;ctx.fillStyle=on?$('c3').value:g;ctx.fillText(w,x,y);ctx.shadowBlur=0;
+ctx.shadowColor=anim=='Neon Flicker'?$('c3').value:'#000b';ctx.shadowBlur=(anim=='Neon Flicker'?30:$('sh').value)*sc;ctx.fillStyle=on?$('c3').value:g;ctx.fillText(w,x,y);ctx.shadowBlur=0;
 if(anim=='Glitch'&&ox){ctx.globalAlpha=.6*alpha;ctx.fillStyle='#0ff';ctx.fillText(w,x+4*sc,y);ctx.fillStyle='#f0f';ctx.fillText(w,x-4*sc,y);ctx.globalAlpha=alpha}
 x+=ww+ctx.measureText(' ').width;wi++});ctx.textAlign='center'});ctx.restore()}
 function loop(){X.clearRect(0,0,OV.width,OV.height);const t=V.currentTime,c=cues.find(c=>t>=c.s&&t<c.e);if(c)drawCue(X,OV.width,OV.height,c,t);
@@ -165,29 +195,47 @@ V.currentTime=0;V.muted=false;V.onended=()=>rec.stop();$('st').innerHTML='<span 
 /* ===== THUMBNAILS ===== */
 const TC=$('tc'),T=TC.getContext('2d');
 let layers=[],bg={c1:'#1b1464',c2:'#0a0e1f',img:null},sel=null,photo=null,vlist=[],adj={b:1,k:1},aiPlan=null;
-$('rf').onchange=async e=>{const f=e.target.files[0];if(!f)return;photo=await loadImg(f);$('mode').textContent='Upload your photo and explain your video. AI will understand your content and create a professional YouTube thumbnail using your reference image.'};
+$('rf').onchange=async e=>{const f=e.target.files[0];if(!f)return;photo=await loadImg(f);$('mode').textContent=kind=='poster'?'Upload your photo and explain your poster. AI will design a professional poster using your reference image.':'Upload your photo and explain your video. AI will understand your content and create a professional YouTube thumbnail using your reference image.'};
 const loadImg=f=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.src=URL.createObjectURL(f)});
 const PAL={'Gaming':['#12002b','#7a1cff','#00ffa3'],'Tech':['#001a33','#0072ff','#00e5ff'],'Cinematic':['#1a0f00','#0b1a2e','#ff9d2e'],'Mystery':['#05050f','#2b0b45','#9dff00'],'Luxury':['#0a0a0a','#2a2112','#e8c15a'],'Minimal':['#f4f4f6','#d9dce8','#111111'],'Challenge':['#4a0000','#ff3b1f','#ffe600'],'Documentary':['#0f1a14','#2c3b2f','#f2e6c8'],'Reaction':['#1a0033','#ff2e88','#ffe600'],'Entertainment':['#2a0845','#ff5f6d','#ffc371'],'Professional YouTube':['#0a1030','#3b2bff','#ffd400']};
-function build(plan){const W=TC.width,H=TC.height,p=PAL[plan.style]||PAL['Professional YouTube'];
-bg={c1:plan.colors?.[0]||p[0],c2:plan.colors?.[1]||p[1],img:bg.userImg||null,userImg:bg.userImg,accent:plan.accent||p[2],light:plan.style=='Minimal'};
-const left=plan.layout!='right',hd=(plan.headline||'WATCH THIS').toUpperCase(),tcol=bg.light?'#111':'#fff';layers=[];
-if(photo){const h=H*(plan.layout=='center'?.95:1.0),w=photo.width/photo.height*h;layers.push({t:'img',im:photo,x:left?W-w*.95:-w*.05,y:H-h+ (plan.layout=='center'?0:0),w,h,glow:30,gc:bg.accent})}
-const words=hd.split(' '),mid=Math.ceil(words.length/2),ls=words.length>2?[words.slice(0,mid).join(' '),words.slice(mid).join(' ')]:[hd];
-const sz=plan.layout=='center'?150:130,tx=photo?(left?40:W*.45):(plan.layout=='center'?W/2:W*.08);
-ls.forEach((l,i)=>layers.push({t:'txt',s:l,x:photo||plan.layout!='center'?tx:W/2,y:H*(photo?.2:.28)+i*sz*1.05,sz:i?sz*1.08:sz,f:'Impact',c:i?bg.accent:tcol,glow:i?25:0,gc:bg.accent,al:photo||plan.layout!='center'?'left':'center',stroke:bg.light?0:10}));
-(plan.props||[]).slice(0,3).forEach((e,i)=>layers.push({t:'txt',s:e,x:photo?(left?W*.3+i*90:W*.55+i*90):W*(.62+i*.12),y:H*(.62+i%2*.12),sz:150,f:'Inter',c:'#fff',glow:20,gc:bg.accent,stroke:0,al:'center'}));
-if(plan.arrow)layers.push({t:'txt',s:'➜',x:photo?W*.38:W*.55,y:H*.8,sz:130,f:'Inter',c:'#ff2d2d',glow:20,gc:'#ff2d2d',stroke:6,al:'center'});
+let photoCut=null,buildId=0,rbFn=null;
+$('rf').addEventListener('change',()=>photoCut=null);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function cut(blob){if(!rbFn){const m=await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm');rbFn=m.removeBackground||m.default}return loadImg(await rbFn(blob))}
+function fit(lines,f,maxW,maxH,cap){T.font=`900 100px ${f}`;const w=Math.max(...lines.map(l=>T.measureText(l).width));return Math.max(24,Math.min(100*maxW/w,maxH/(lines.length*1.04),cap))}
+function arrow(c,l){c.save();c.translate(l.x+l.w/2,l.y+l.h/2);c.rotate(l.rot||-.3);const w=l.w,h=l.h;c.beginPath();c.moveTo(-w/2,-h*.2);c.lineTo(w*.1,-h*.2);c.lineTo(w*.1,-h/2);c.lineTo(w/2,0);c.lineTo(w*.1,h/2);c.lineTo(w*.1,h*.2);c.lineTo(-w/2,h*.2);c.closePath();c.fillStyle='#ff2d2d';c.fill();c.lineWidth=8;c.strokeStyle='#fff';c.lineJoin='round';c.stroke();c.restore()}
+function build(plan){if(kind=='poster')return buildPoster(plan);const W=TC.width,H=TC.height,p=PAL[plan.style]||PAL['Professional YouTube'];
+bg={c1:plan.colors?.[0]||p[0],c2:plan.colors?.[1]||p[1],userImg:bg.userImg,accent:plan.accent||p[2],light:plan.style=='Minimal'};
+const hd=(plan.headline||'WATCH THIS').toUpperCase(),tcol=bg.light?'#111':'#fff',ph=photoCut||photo,behind=!!photoCut&&plan.textBehind!==false;let lay=plan.layout||'left';if(!behind&&lay=='center')lay='left';layers=[];
+const ws=hd.split(/\s+/);let lines;if(ws.length<2)lines=[hd];else if(ws.length==2)lines=hd.length<=11?[hd]:ws;else{const m=Math.ceil(ws.length/2);lines=[ws.slice(0,m).join(' '),ws.slice(m).join(' ')]}
+let pl=null;if(ph){const h2=H*1.02,w=ph.width/ph.height*h2;pl={t:'img',im:ph,x:lay=='center'?(W-w)/2:lay=='left'?W-w*.96:-w*.04,y:H-h2*.98,w,h:h2,glow:behind?26:0,gc:bg.accent}}
+const mg=W*.04;let tx,tw,ty,th,al;
+if(behind||!ph){tw=W-2*mg;tx=W/2;al='center';th=H*(lines.length>1?.52:.32);const pos=plan.textPosition||'top';ty=pos=='bottom'?H-th-mg:pos=='center'?(H-th)/2:mg}
+else{tw=W-pl.w*.96-mg*2;th=H*.62;ty=(H-th)/2;al=lay=='right'?'right':'left';tx=lay=='right'?W-mg:mg}
+const sz=fit(lines,'Impact',tw,th,H*.36),lh=sz*1.04,y0=ty+(th-lines.length*lh)/2;
+lines.forEach((l,i)=>layers.push({t:'txt',s:l,x:tx,y:y0+i*lh,sz,f:'Impact',c:i?bg.accent:tcol,glow:i?22:0,gc:bg.accent,al,stroke:bg.light?0:Math.max(6,sz*.07)}));
+if(pl)layers.push(pl);
+if(plan.arrow){const ax=lay=='left'?W*.42:lay=='right'?W*.2:W*.36;layers.push({t:'arrow',x:ax,y:H*.62,w:W*.14,h:H*.13,rot:-.3})}
 sel=layers.find(l=>l.t=='txt')||null;sync();draw()}
+function startProps(p){buildId++;fillProps(p,buildId)}
+async function fillProps(p,id){const list=(p.propPrompts||[]).slice(0,2),W=TC.width,H=TC.height,lay=p.layout||'left';
+const slots=kind=='poster'?[[.05,.64],[.62,.66]]:{left:[[.05,.58],[.27,.62]],right:[[.58,.6],[.78,.58]],center:[[.04,.58],[.78,.58]]}[lay]||[[.05,.58],[.27,.62]];
+for(let i=0;i<list.length;i++){if(id!=buildId)return;$('ps').innerHTML='<span class="spin"></span> Making PNG prop '+(i+1)+'/'+list.length+' (can take ~30s)…';
+ for(let t=0;t<2;t++){try{const j=await api('/api/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:list[i]+', single isolated object, centered, plain solid bright green background, studio lighting, no text, no ground shadow',square:true})});
+  const im=await cut(await (await fetch(j.image)).blob());if(id!=buildId)return;const s=H*(kind=='poster'?.22:.36);
+  layers.push({t:'img',im,x:W*slots[i][0],y:H*slots[i][1]-s*.1,w:im.width/im.height*s,h:s,glow:16,gc:bg.accent});draw();break}catch(e){await sleep(16000)}}
+ await sleep(15500)}
+if(id==buildId)$('ps').textContent=''}
 function draw(c=T,W=TC.width,H=TC.height,sl=true){c.save();c.filter=`brightness(${adj.b}) contrast(${adj.k})`;
 const g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,bg.c1);g.addColorStop(1,bg.c2);c.fillStyle=g;c.fillRect(0,0,W,H);
 if(bg.userImg){const r=Math.max(W/bg.userImg.width,H/bg.userImg.height);c.drawImage(bg.userImg,(W-bg.userImg.width*r)/2,(H-bg.userImg.height*r)/2,bg.userImg.width*r,bg.userImg.height*r);c.fillStyle='#0006';c.fillRect(0,0,W,H)}
 const rg=c.createRadialGradient(W*.75,H*.45,10,W*.75,H*.45,W*.5);rg.addColorStop(0,(bg.accent||'#fff')+'66');rg.addColorStop(1,'#0000');c.fillStyle=rg;c.fillRect(0,0,W,H);
 const vg=c.createRadialGradient(W/2,H/2,H*.4,W/2,H/2,W*.75);vg.addColorStop(0,'#0000');vg.addColorStop(1,'#0008');c.fillStyle=vg;c.fillRect(0,0,W,H);
 layers.forEach(l=>{c.save();c.shadowColor=l.glow?l.gc||'#fff':'#0009';c.shadowBlur=l.glow||14;c.shadowOffsetY=l.glow?0:6;
-if(l.t=='img')c.drawImage(l.im,l.x,l.y,l.w,l.h);else{c.font=`${l.f=='Inter'?'':'900 '}${l.sz}px ${l.f}`;c.textAlign=l.al||'left';c.textBaseline='top';if(l.stroke){c.lineWidth=l.stroke;c.strokeStyle='#000';c.lineJoin='round';c.strokeText(l.s,l.x,l.y)}c.fillStyle=l.c;c.fillText(l.s,l.x,l.y)}
+if(l.t=='img')c.drawImage(l.im,l.x,l.y,l.w,l.h);else if(l.t=='arrow')arrow(c,l);else{c.font=`${l.f=='Inter'?'':'900 '}${l.sz}px ${l.f}`;c.textAlign=l.al||'left';c.textBaseline='top';if(l.stroke){c.lineWidth=l.stroke;c.strokeStyle='#000';c.lineJoin='round';c.strokeText(l.s,l.x,l.y)}c.fillStyle=l.c;c.fillText(l.s,l.x,l.y)}
 c.restore()});
 if(sl&&sel){const b=box(sel);c.filter='none';c.strokeStyle='#7c6cff';c.lineWidth=3;c.setLineDash([10,6]);c.strokeRect(b.x,b.y,b.w,b.h)}c.restore()}
-function box(l){if(l.t=='img')return{x:l.x,y:l.y,w:l.w,h:l.h};T.font=`900 ${l.sz}px ${l.f}`;const w=T.measureText(l.s).width;return{x:l.al=='center'?l.x-w/2:l.x,y:l.y,w,h:l.sz*1.1}}
+function box(l){if(l.t=='img'||l.t=='arrow')return{x:l.x,y:l.y,w:l.w,h:l.h};T.font=`900 ${l.sz}px ${l.f}`;const w=T.measureText(l.s).width;return{x:l.al=='center'?l.x-w/2:l.x,y:l.y,w,h:l.sz*1.1}}
 function sync(){if(!sel)return;$('et').value=sel.s||'';$('ef').value=sel.f||'Impact';$('ec').value=(sel.c||'#ffffff').slice(0,7);$('esz').value=sel.sz||sel.h||100;$('eg').value=sel.glow||0}
 ['et','ef','ec','esz','eg'].forEach(i=>$(i).oninput=()=>{if(!sel)return;if(sel.t=='txt'){sel.s=$('et').value;sel.f=$('ef').value;sel.c=$('ec').value;sel.sz=+$('esz').value}else{const r=sel.w/sel.h;sel.h=+$('esz').value;sel.w=sel.h*r}sel.glow=+$('eg').value;draw()});
 $('eb').oninput=()=>{adj.b=+$('eb').value;draw()};$('ek').oninput=()=>{adj.k=+$('ek').value;draw()};
@@ -200,19 +248,19 @@ let drag=null;const pt=e=>{const r=TC.getBoundingClientRect();return{x:(e.client
 TC.onpointerdown=e=>{const p=pt(e);sel=[...layers].reverse().find(l=>{const b=box(l);return p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h})||null;if(sel){drag={dx:p.x-sel.x,dy:p.y-sel.y};TC.setPointerCapture(e.pointerId);sync()}draw()};
 TC.onpointermove=e=>{if(drag&&sel){const p=pt(e);sel.x=p.x-drag.dx;sel.y=p.y-drag.dy;draw()}};TC.onpointerup=()=>drag=null;
 const exp=(m,n)=>{const old=sel;sel=null;draw();TC.toBlob(b=>{save(n,b);sel=old;draw()},m,.95)};
-$('dp').onclick=()=>exp('image/png','thumbnail.png');$('dj').onclick=()=>exp('image/jpeg','thumbnail.jpg');
+$('dp').onclick=()=>exp('image/png',(kind=='poster'?'poster':'thumbnail')+'.png');$('dj').onclick=()=>exp('image/jpeg',(kind=='poster'?'poster':'thumbnail')+'.jpg');
 const api=async(u,o)=>{const r=await fetch(u,o),j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||'Server error '+r.status);return j};
 const toURL=f=>new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)});
 let photoFile=null;$('rf').addEventListener('change',e=>photoFile=e.target.files[0]||null);
 async function plan(vn){let ph=null;if(photoFile){const im=photo,c=document.createElement('canvas'),k=Math.min(1,768/Math.max(im.width,im.height));c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);ph=c.toDataURL('image/jpeg',.8)}
-return api('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brief:$('br').value,style:$('sty').value,variation:vn,styles:Object.keys(PAL),photo:ph})})}
+return api('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brief:$('br').value,style:$('sty').value,variation:vn,kind,styles:Object.keys(PAL),photo:ph})})}
 async function gen(n){if(!$('br').value.trim()){$('gs').textContent='Describe your video first.';return}
 $('gs').innerHTML='<span class="spin"></span> AI is understanding your video…';$('gen').disabled=$('more').disabled=true;
-try{const ps=[];for(let i=0;i<n;i++)ps.push(plan(vlist.length+i+1));const res=await Promise.all(ps);
-res.forEach(p=>{vlist.push(p)});aiPlan=res[0];build(res[0]);renderVars();$('gs').innerHTML=`<b>${aiPlan.topic}</b> · ${aiPlan.emotion} · ${aiPlan.moment}`;proj('Thumbnail: '+aiPlan.headline)}
+try{if(photo&&!photoCut){$('gs').innerHTML='<span class="spin"></span> Cutting out your photo on your device (first time ~30s)…';try{photoCut=await cut(photoFile)}catch(e){photoCut=null}}const ps=[];for(let i=0;i<n;i++)ps.push(plan(vlist.length+i+1));const res=await Promise.all(ps);
+res.forEach(p=>{vlist.push(p)});aiPlan=res[0];build(res[0]);renderVars();startProps(aiPlan);$('gs').innerHTML=`<b>${aiPlan.topic}</b> · ${aiPlan.emotion} · ${aiPlan.moment}`;proj('Thumbnail: '+aiPlan.headline)}
 catch(e){$('gs').textContent='Error: '+(e.message||'AI request failed')}
 $('gen').disabled=$('more').disabled=false}
-function renderVars(){$('vars').innerHTML='';const keep=[layers,bg,sel];vlist.forEach((p,i)=>{build(p);const c=document.createElement('canvas');c.width=320;c.height=Math.round(320*TC.height/TC.width);c.getContext('2d').drawImage(TC,0,0,c.width,c.height);c.onclick=()=>{aiPlan=p;build(p);[...$('vars').children].forEach(x=>x.classList.toggle('on',x==c))};$('vars').appendChild(c)});aiPlan=vlist[vlist.length-1]&&aiPlan;build(aiPlan)}
+function renderVars(){$('vars').innerHTML='';const keep=[layers,bg,sel];vlist.forEach((p,i)=>{build(p);const c=document.createElement('canvas');c.width=320;c.height=Math.round(320*TC.height/TC.width);c.getContext('2d').drawImage(TC,0,0,c.width,c.height);c.onclick=()=>{aiPlan=p;build(p);startProps(p);[...$('vars').children].forEach(x=>x.classList.toggle('on',x==c))};$('vars').appendChild(c)});aiPlan=vlist[vlist.length-1]&&aiPlan;build(aiPlan)}
 $('gen').onclick=()=>{vlist=[];gen(1)};$('more').onclick=()=>gen(3);
 const busy=(el,on)=>{el.disabled=on;el.dataset.t=el.dataset.t||el.textContent;el.innerHTML=on?'<span class="spin"></span> Working…':el.dataset.t};
 function wav(b,sr){const d=b.getChannelData(0),v=new DataView(new ArrayBuffer(44+d.length*2)),w=(o,s)=>[...s].forEach((c,i)=>v.setUint8(o+i,c.charCodeAt(0)));
@@ -231,6 +279,61 @@ try{const j=await api('/api/image',{method:'POST',headers:{'Content-Type':'appli
 $('rb').onclick=async()=>{if(!sel||sel.t!='img'){$('gs').textContent='Select an image layer first (click your photo).';return}const b=$('rb');busy(b,true);$('gs').textContent='Removing background on your device (first time downloads the model, ~30s)…';
 try{const m=await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm');const c=document.createElement('canvas');c.width=sel.im.naturalWidth;c.height=sel.im.naturalHeight;c.getContext('2d').drawImage(sel.im,0,0);
 const bl=await new Promise(r=>c.toBlob(r,'image/png')),out=await (m.removeBackground||m.default)(bl),im=new Image(),l=sel;im.onload=()=>{l.im=im;draw();$('gs').textContent='Background removed.'};im.src=URL.createObjectURL(out)}catch(e){$('gs').textContent='Error: '+e.message}busy(b,false)};
-api('/api/status').then(s=>{$('stat').innerHTML='Server: '+Object.entries(s).map(([k,v])=>(v?'✅ ':'⚠️ ')+k).join(' · ')+(Object.values(s).includes(false)?'<br>⚠️ = add the key in <code>.env</code> on the server.':'')}).catch(()=>$('stat').textContent='Backend not reachable. Run it with: npm start');
+api('/api/status').then(s=>{$('stat').innerHTML='Server: '+Object.entries(s).map(([k,v])=>(v?'OK: ':'Missing: ')+k).join(' · ')+(Object.values(s).includes(false)?'<br>Missing = add the key in <code>.env</code> on the server.':'')}).catch(()=>$('stat').textContent='Backend not reachable. Run it with: npm start');
 draw();
+let kind='thumb';
+const ARS={thumb:[['1280x720','16:9 (1280x720)'],['1080x1080','1:1'],['1080x1920','9:16'],['1080x1350','4:5']],poster:[['1080x1620','2:3 poster'],['1080x1440','3:4'],['1240x1754','A-series'],['1080x1920','9:16'],['1080x1080','1:1']]};
+function setKind(k){kind=k;document.querySelectorAll('#kd .chip').forEach(c=>c.classList.toggle('on',c.dataset.k==k));$('ar').innerHTML=ARS[k].map(a=>`<option value="${a[0]}">${a[1]}</option>`).join('');
+aiPlan=null;vlist=[];layers=[];sel=null;buildId++;$('vars').innerHTML='';$('ps').textContent='';
+$('mode').textContent=k=='poster'?'Describe your poster (movie, event, product or brand). AI will design a poster with a strong title, tagline and composition.':'Just explain your video content. AI will understand your idea and create an engaging thumbnail for you.';
+$('br').placeholder=k=='poster'?'e.g. Poster for a college tech fest called Nexus 2026':'e.g. I tested every budget phone under 15,000 and one shocked me';
+const[w,h2]=$('ar').value.split('x');TC.width=+w;TC.height=+h2;draw()}
+$('kd').onclick=e=>{const k=e.target.dataset.k;if(k&&k!=kind)setKind(k)};
+function buildPoster(plan){const W=TC.width,H=TC.height,p=PAL[plan.style]||PAL['Professional YouTube'];
+bg={c1:plan.colors?.[0]||p[0],c2:plan.colors?.[1]||p[1],userImg:bg.userImg,accent:plan.accent||p[2],light:plan.style=='Minimal'};
+const hd=(plan.headline||'TITLE').toUpperCase(),tcol=bg.light?'#111':'#fff',ph=photoCut||photo,behind=!!photoCut;layers=[];
+const ws=hd.split(/\s+/),m=Math.ceil(ws.length/2),lines=ws.length>1?[ws.slice(0,m).join(' '),ws.slice(m).join(' ')]:[hd];
+const mg=W*.07,th=H*.26,sz=fit(lines,'Impact',W-2*mg,th,H*.16),lh=sz*1.04,y0=H*.06+(th-lines.length*lh)/2;
+lines.forEach((l,i)=>layers.push({t:'txt',s:l,x:W/2,y:y0+i*lh,sz,f:'Impact',c:i?bg.accent:tcol,glow:i?22:0,gc:bg.accent,al:'center',stroke:bg.light?0:Math.max(6,sz*.07)}));
+if(ph){const h2=H*(behind?.8:.6),w=ph.width/ph.height*h2;layers.push({t:'img',im:ph,x:(W-w)/2,y:H-h2-H*.07,w,h:h2,glow:behind?24:0,gc:bg.accent})}
+const tg=(plan.tagline||'').toUpperCase();if(tg){const s2=fit([tg],'Arial Black',W-2*mg,H*.05,H*.035);layers.push({t:'txt',s:tg,x:W/2,y:H-H*.07,sz:s2,f:'Arial Black',c:tcol,glow:0,gc:bg.accent,al:'center',stroke:bg.light?0:4})}
+sel=layers.find(l=>l.t=='txt')||null;sync();draw()}
+/* ---- chat ---- */
+let chat=[];try{chat=JSON.parse(localStorage.getItem('cs_chat')||'[]')}catch(e){}
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const md=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+function renderChat(){$('msgs').innerHTML=chat.length?chat.map((m,i)=>`<div class="m ${m.r}">${md(m.t)}${m.r=='ai'?`<div><button class="lnk" data-i="${i}">Use as thumbnail brief</button></div>`:''}</div>`).join(''):'<div class="empty">Ask for video ideas, titles, descriptions, hashtags or caption wording.</div>';$('msgs').scrollTop=1e9;try{localStorage.setItem('cs_chat',JSON.stringify(chat.slice(-60)))}catch(e){}}
+async function send(t){t=(t||$('cin').value).trim();if(!t)return;$('cin').value='';chat.push({r:'me',t});renderChat();$('csend').disabled=true;$('msgs').insertAdjacentHTML('beforeend','<div class="m ai" id="typ"><span class="spin"></span></div>');$('msgs').scrollTop=1e9;
+try{const j=await api('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chat.slice(-16).map(m=>({role:m.r=='me'?'user':'model',text:m.t}))})});chat.push({r:'ai',t:j.reply})}catch(e){chat.push({r:'ai',t:'Error: '+e.message})}
+$('csend').disabled=false;renderChat()}
+$('csend').onclick=()=>send();$('cin').onkeydown=e=>{if(e.key=='Enter'&&!e.shiftKey){e.preventDefault();send()}};
+$('qs').onclick=e=>{if(e.target.classList.contains('chip'))send(e.target.textContent)};$('cclr').onclick=()=>{chat=[];renderChat()};
+$('msgs').onclick=e=>{const i=e.target.dataset.i;if(i!=null){$('br').value=chat[i].t.slice(0,600);go('thumb')}};renderChat();
+/* ---- enhance ---- */
+function setEm(m){document.querySelectorAll('#em .chip').forEach(c=>c.classList.toggle('on',c.dataset.m==m));['img','vid','bg'].forEach(k=>$('p-'+k).style.display=k==m?'block':'none')}
+$('em').onclick=e=>{if(e.target.dataset.m)setEm(e.target.dataset.m)};
+let eImg=null;const EO=$('eo');
+$('ei').onchange=async e=>{const f=e.target.files[0];if(f){eImg=await loadImg(f);$('eis').textContent='Original: '+eImg.width+' x '+eImg.height}};
+function sharpen(c,a){const w=c.width,h=c.height,x=c.getContext('2d'),B=256,s4=w*4;for(let y0=0;y0<h;y0+=B){const ys=Math.max(0,y0-1),ye=Math.min(h,y0+B+1),d=x.getImageData(0,ys,w,ye-ys),s=d.data,o=new Uint8ClampedArray(s);
+for(let y=1;y<ye-ys-1;y++)for(let i=y*s4+4,e=y*s4+s4-4;i<e;i+=4)for(let ch=0;ch<3;ch++){const j=i+ch;o[j]=s[j]*(1+4*a)-a*(s[j-4]+s[j+4]+s[j-s4]+s[j+s4])}
+const rows=Math.min(B,h-y0),off=(y0-ys)*s4;x.putImageData(new ImageData(o.slice(off,off+rows*s4),w,rows),0,y0)}}
+$('eup').onclick=async()=>{if(!eImg){$('eis').textContent='Choose an image first.';return}const b=$('eup');busy(b,true);await sleep(30);
+try{let k=+$('es').value;k=Math.min(k,7680/Math.max(eImg.width,eImg.height));if(k<1)k=1;EO.width=Math.round(eImg.width*k);EO.height=Math.round(eImg.height*k);const x=EO.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.drawImage(eImg,0,0,EO.width,EO.height);
+if(+$('esh').value>0)sharpen(EO,+$('esh').value);EO.style.display='block';$('eis').textContent='Result: '+EO.width+' x '+EO.height+' ('+k.toFixed(1)+'x)'}catch(e){$('eis').textContent='Error: '+e.message+' (try a smaller scale)'}busy(b,false)};
+$('edp').onclick=()=>EO.width&&EO.toBlob(b=>save('upscaled.png',b),'image/png');$('edj').onclick=()=>EO.width&&EO.toBlob(b=>save('upscaled.jpg',b),'image/jpeg',.95);
+const EV=document.createElement('video');EV.playsInline=true;let evUrl=null;
+$('ev').onchange=e=>{const f=e.target.files[0];if(f){EV.src=URL.createObjectURL(f);$('evt').textContent=f.name+' loaded'}};
+$('evb').onclick=async()=>{if(!EV.src){$('evt').textContent='Choose a video first.';return}if(!window.MediaRecorder){$('evt').textContent='This browser cannot record video.';return}
+const H2=+$('evh').value,vw=EV.videoWidth||1280,vh=EV.videoHeight||720,W2=Math.round(vw/vh*H2/2)*2,cv=document.createElement('canvas');cv.width=W2;cv.height=H2;const cx=cv.getContext('2d');cx.imageSmoothingQuality='high';
+const out=cv.captureStream(30);try{const ac=new AudioContext(),sc=ac.createMediaElementSource(EV),ds=ac.createMediaStreamDestination();sc.connect(ds);out.addTrack(ds.stream.getAudioTracks()[0])}catch(e){}
+const mt=['video/webm;codecs=vp9,opus','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));let rec;try{rec=new MediaRecorder(out,{mimeType:mt,videoBitsPerSecond:{1080:12e6,1440:22e6,2160:40e6}[H2]})}catch(e){$('evt').textContent='This device cannot encode '+H2+'p. Try a lower resolution.';return}
+const ch=[],sh=+$('evs').value;rec.ondataavailable=e=>e.data.size&&ch.push(e.data);let d;
+const draw2=()=>{cx.filter=`contrast(${1+sh*.12}) saturate(${1+sh*.1})`;cx.drawImage(EV,0,0,W2,H2);$('evp').style.width=(EV.currentTime/EV.duration*100)+'%';d=requestAnimationFrame(draw2)};
+rec.onstop=()=>{cancelAnimationFrame(d);EV.onended=null;$('evp').style.width='100%';$('evt').textContent='Done: '+W2+' x '+H2;save('upscaled-'+H2+'p.webm',new Blob(ch,{type:'video/webm'}))};
+EV.currentTime=0;EV.onended=()=>rec.stop();$('evt').innerHTML='<span class="spin"></span> Rendering in real time. Keep this screen open.';rec.start();await EV.play();draw2()};
+let bgOut=null;
+$('bgo2').onclick=async()=>{const f=$('bf').files[0];if(!f){$('bgs').textContent='Choose an image first.';return}const b=$('bgo2');busy(b,true);$('bgs').textContent='Working on your device (first time downloads the model, about 30s)...';
+try{const im=await cut(f);const c=document.createElement('canvas');c.width=im.width;c.height=im.height;c.getContext('2d').drawImage(im,0,0);bgOut=c;$('bgv').style.display='block';$('bgv').innerHTML='';$('bgv').appendChild(c);$('bgs').textContent='Done.'}catch(e){$('bgs').textContent='Error: '+e.message}busy(b,false)};
+$('bgd').onclick=()=>bgOut&&bgOut.toBlob(b=>save('cutout.png',b),'image/png');
+
 </script></body></html>
