@@ -67,7 +67,7 @@ input[type=range]{padding:0}input[type=color]{height:34px;padding:2px}textarea{m
 <div class="pair" style="margin-bottom:12px"><div class="big" onclick="go('edit')" style="margin:0"><svg class="i"><use href="#i-cut"/></svg><b>New project</b><span>Edit a video</span></div><div class="big" onclick="go('chat')" style="margin:0"><svg class="i"><use href="#i-chat"/></svg><b>Chat</b><span>Ideas, titles, hashtags</span></div></div>
 <div class="pair"><div class="big" onclick="go('thumb')"><svg class="i"><use href="#i-img"/></svg><b>Thumbnail &amp; Poster</b><span>Design clickable covers</span></div>
 <div class="big" onclick="go('cap')"><svg class="i"><use href="#i-cc"/></svg><b>AI Caption &amp; Subtitle</b><span>Animated subtitles</span></div></div>
-<h3>Popular tools</h3>
+<div class="big" onclick="go('cc')" style="margin:12px 0"><svg class="i"><use href="#i-up"/></svg><b>Make your CC</b><span>Build, share and import color-correction looks (.mxl)</span></div><h3>Popular tools</h3>
 <div class="tools"><div onclick="go('cap')"><svg class="i"><use href="#i-cc"/></svg>Auto captions</div><div onclick="go('thumb');setKind('thumb')"><svg class="i"><use href="#i-img"/></svg>Thumbnail</div><div onclick="go('thumb');setKind('poster')"><svg class="i"><use href="#i-poster"/></svg>Poster</div>
 <div onclick="go('enh');setEm('img')"><svg class="i"><use href="#i-up"/></svg>Enhance 4K</div><div onclick="go('enh');setEm('bg')"><svg class="i"><use href="#i-user"/></svg>Remove background</div><div onclick="go('chat')"><svg class="i"><use href="#i-chat"/></svg>Chat</div></div>
 <h3>Recent</h3><div class="card" id="recent" style="color:var(--mu)">No projects yet.</div>
@@ -115,6 +115,7 @@ input[type=range]{padding:0}input[type=color]{height:34px;padding:2px}textarea{m
 <div class="two"><div><label>Brightness</label><input type="range" id="eb" min=".5" max="1.6" step=".05" value="1"></div><div><label>Contrast</label><input type="range" id="ek" min=".5" max="1.8" step=".05" value="1"></div></div></div></div></div></section>
 
 <section class="view" id="edit"><div class="big" style="align-items:center;text-align:center;padding:40px 20px"><svg class="i"><use href="#i-cut"/></svg><b>New project</b><span>Select a video from your gallery to start editing</span><input type="file" id="evf" accept="video/*" style="margin-top:12px"></div></section>
+<section class="view" id="cc"><div id="ccv"></div></section>
 <section class="view" id="enh"><div class="chips" id="em" style="margin:6px 0 12px"><span class="chip on" data-m="img">Image upscale</span><span class="chip" data-m="vid">Video upscale</span><span class="chip" data-m="bg">Remove background</span></div>
 <div class="card"><div class="note">Smart upscale = high-quality resize + sharpening. It does not invent new detail like AI upscalers; true AI upscaling needs a paid GPU service. 8K video is not offered because phones cannot encode it reliably.</div>
 <div id="p-img"><input type="file" id="ei" accept="image/*"><div class="two"><div><label>Scale</label><select id="es"><option value="2">2x</option><option value="3">3x</option><option value="4" selected>4x</option></select></div><div><label>Sharpness</label><input type="range" id="esh" min="0" max="1" step=".05" value=".4"></div></div>
@@ -124,7 +125,7 @@ input[type=range]{padding:0}input[type=color]{height:34px;padding:2px}textarea{m
 <div class="row" style="margin-top:8px"><button class="btn p" id="evb">Upscale video</button></div><div class="bar" style="margin-top:8px"><div id="evp"></div></div><div id="evt" style="color:var(--mu);font-size:12px;margin:6px 0"></div></div>
 <div id="p-bg" style="display:none"><input type="file" id="bf" accept="image/*"><div class="row" style="margin-top:8px"><button class="btn p" id="bgo2">Remove background</button><button class="btn" id="bgd">Download PNG</button></div><div id="bgs" style="color:var(--mu);font-size:12px;margin:6px 0"></div><div class="chk" id="bgv" style="display:none"></div></div></div></section>
 </main>
-<nav id="bnav"><button data-v="home" class="on"><svg class="i"><use href="#i-home"/></svg>Home</button><button data-v="chat"><svg class="i"><use href="#i-chat"/></svg>Chat</button><button data-v="thumb"><svg class="i"><use href="#i-img"/></svg>Thumbnail</button><button data-v="cap"><svg class="i"><use href="#i-cc"/></svg>Captions</button><button data-v="edit"><svg class="i"><use href="#i-cut"/></svg>Edit</button></nav>
+<nav id="bnav"><button data-v="home" class="on"><svg class="i"><use href="#i-home"/></svg>Home</button><button data-v="chat"><svg class="i"><use href="#i-chat"/></svg>Chat</button><button data-v="thumb"><svg class="i"><use href="#i-img"/></svg>Thumbnail</button><button data-v="cap"><svg class="i"><use href="#i-cc"/></svg>Captions</button><button data-v="edit"><svg class="i"><use href="#i-cut"/></svg>Edit</button><button data-v="cc"><svg class="i"><use href="#i-up"/></svg>CC</button></nav>
 
 <script>
 var kind='thumb';
@@ -369,5 +370,5 @@ try{const im=await cut(f);const c=document.createElement('canvas');c.width=im.wi
 $('bgd').onclick=()=>bgOut&&bgOut.toBlob(b=>save('cutout.png',b),'image/png');
 
 </script>
-<script src="/editor.js"></script>
+<script src="/editor.js"></script><script src="/cc.js"></script>
 </body></html>

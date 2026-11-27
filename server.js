@@ -3,7 +3,7 @@ const express=require('express'),multer=require('multer'),path=require('path');
 const app=express(),up=multer({storage:multer.memoryStorage(),limits:{fileSize:20*1024*1024}});
 const KEY=process.env.GEMINI_API_KEY,MODEL=process.env.GEMINI_MODEL||'gemini-flash-latest';
 app.use(express.json({limit:'12mb'}));
-['index.html','editor.js','manifest.json','sw.js','icon-192.png','icon-512.png','maskable-512.png'].forEach(f=>app.get(f=='index.html'?['/','/index.html']:'/'+f,(q,r)=>r.sendFile(path.join(__dirname,f))));
+['index.html','editor.js','cc.js','manifest.json','sw.js','icon-192.png','icon-512.png','maskable-512.png'].forEach(f=>app.get(f=='index.html'?['/','/index.html']:'/'+f,(q,r)=>r.sendFile(path.join(__dirname,f))));
 // per-IP rate limit (replace with login/credits when you add payments)
 const hits=new Map();app.use('/api',(req,res,next)=>{const k=req.ip,n=Date.now(),a=(hits.get(k)||[]).filter(t=>n-t<60000);a.push(n);hits.set(k,a);a.length>20?res.status(429).json({error:'Too many requests, wait a minute.'}):next()});
 const needKey=res=>KEY?false:(res.status(501).json({error:'GEMINI_API_KEY is not set on the server (.env).'}),true);
