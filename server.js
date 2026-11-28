@@ -26,18 +26,31 @@ app.post('/api/transcribe',up.single('audio'),async(req,res)=>{
 
 app.post('/api/analyze',async(req,res)=>{
  if(needKey(res))return;const{brief,style,variation,styles,photo,kind}=req.body;if(!brief)return res.status(400).json({error:'Describe your video.'});
- try{const sys=`You are a top ${kind=='poster'?'movie/event poster':'YouTube thumbnail'} designer. Return ONLY JSON: {"topic":str,"subject":str,"moment":str,"emotion":str,"headline":str (max 3 punchy words, same language as the idea, Hinglish ok),"style":one of ${styles.join('|')},"layout":"left"|"right"|"center","colors":[hex,hex] dark gradient,"accent":hex,"propPrompts":[2 short English prompts for REAL objects/props that explain the topic, e.g. "glowing gold bitcoin coin", "red sports car" — never emoji],"textPosition":"top"|"center"|"bottom","textBehind":bool (true when a person photo exists and text can sit behind them),"arrow":bool,"composition":str,"tagline":str (posters only, max 8 words),"banner":str|null (a short punchy yellow label like "FREE & UNLIMITED" or "NEW" only if it helps, max 3 words),"callouts":[up to 3 {"text":str (max 3 words, e.g. a distance, number or label),"x":0-100,"y":0-100}] (only for explainer/documentary/map topics, else []),"circle":{"x":0-100,"y":0-100}|null (highlight spot, gaming/tech/reaction),"split":bool (true for two-sided contrast like good vs evil, versus, before/after; then colors = the two side colors),"bgPrompt":str (English prompt for a cinematic background image with NO text and NO people, matching the topic)}. Style preference: ${style}. Variation #${variation}: make it creatively different.`;
+ try{const sys=`You are a top ${kind=='poster'?'movie/event poster':'YouTube thumbnail'} designer. Return ONLY JSON: {"topic":str,"subject":str,"moment":str,"emotion":str,"headline":str (max 3 punchy words, same language as the idea, Hinglish ok),"style":one of ${styles.join('|')},"layout":"left"|"right"|"center","colors":[hex,hex] dark gradient,"accent":hex,"propPrompts":[2 short English prompts for REAL objects/props that explain the topic, e.g. "glowing gold bitcoin coin", "red sports car" — never emoji],"textPosition":"top"|"center"|"bottom","textBehind":bool (true when a person photo exists and text can sit behind them),"arrow":bool,"artPrompt":str (rich English art direction for the COMPLETE ${kind=='poster'?'poster':'thumbnail'} artwork: main subject and emotion, composition with the subject on the side opposite the headline, dramatic cinematic lighting, color palette, detailed background and props that explain the topic; leave clean negative space for a big headline; absolutely NO text, letters or logos in the image),"composition":str,"tagline":str (posters only, max 8 words),"banner":str|null (a short punchy yellow label like "FREE & UNLIMITED" or "NEW" only if it helps, max 3 words),"callouts":[up to 3 {"text":str (max 3 words, e.g. a distance, number or label),"x":0-100,"y":0-100}] (only for explainer/documentary/map topics, else []),"circle":{"x":0-100,"y":0-100}|null (highlight spot, gaming/tech/reaction),"split":bool (true for two-sided contrast like good vs evil, versus, before/after; then colors = the two side colors),"bgPrompt":str (English prompt for a cinematic background image with NO text and NO people, matching the topic)}. Style preference: ${style}. Variation #${variation}: make it creatively different.`;
   const parts=[{text:'Video idea: '+brief}];if(photo){const m=photo.match(/^data:(.+?);base64,(.+)$/);if(m)parts.push({inline_data:{mime_type:m[1],data:m[2]}})}
   res.json(await gemini(parts,sys));
  }catch(e){res.status(502).json({error:e.message})}});
 
 // free image generation via Pollinations (no key). Fetched server-side so the canvas isn't tainted.
+const IMODEL=process.env.GEMINI_IMAGE_MODEL||'gemini-2.5-flash-image';
+async function geminiImage(prompt,photo,ratio){
+ const parts=[{text:prompt}];if(photo){const m=String(photo).match(/^data:(.+?);base64,(.+)$/);if(m)parts.push({inline_data:{mime_type:m[1],data:m[2]}})}
+ for(const cfg of[{responseModalities:['IMAGE'],imageConfig:{aspectRatio:ratio}},{responseModalities:['IMAGE']}]){
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${IMODEL}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':KEY},body:JSON.stringify({contents:[{role:'user',parts}],generationConfig:cfg})});
+  const j=await r.json().catch(()=>({}));if(r.status==400&&cfg.imageConfig)continue;if(!r.ok)throw new Error(j.error?.message||'Gemini image error '+r.status);
+  const p=(j.candidates?.[0]?.content?.parts||[]).find(x=>(x.inlineData||x.inline_data));const d=p&&(p.inlineData||p.inline_data);if(!d)throw new Error('Gemini returned no image (try again).');
+  return `data:${d.mimeType||d.mime_type||'image/png'};base64,${d.data}`}
+ throw new Error('Gemini image request failed.')}
 app.post('/api/image',async(req,res)=>{
  if(!req.body.prompt)return res.status(400).json({error:'Prompt missing.'});
- try{const u='https://image.pollinations.ai/prompt/'+encodeURIComponent(req.body.prompt+', cinematic lighting, high detail, no text')+'?width='+((req.body.portrait||req.body.square)?768:1280)+'&height='+(req.body.portrait?1152:req.body.square?768:720)+'&nologo=true&model=flux&seed='+Math.floor(Math.random()*1e6);
+ const{prompt,portrait,square,photo,hq,kind}=req.body;let warn='';
+ if(hq&&KEY){try{const ratio=portrait?(kind=='poster'?'2:3':'9:16'):square?'1:1':'16:9';
+  const full=(photo?'Use the person in the attached reference photo as the main character. Keep their face and identity exactly the same. ':'')+prompt+' Professional, polished, high-contrast, sharp focus, rich color grading, like a top YouTube designer made it. Do NOT write any text, letters, numbers or logos anywhere in the image.';
+  const image=await geminiImage(full,photo,ratio);return res.json({image,src:'gemini'})}catch(e){warn=e.message}}
+ try{const u='https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt+', cinematic lighting, high detail, no text')+'?width='+((portrait||square)?768:1280)+'&height='+(portrait?1152:square?768:720)+'&nologo=true&model=flux&seed='+Math.floor(Math.random()*1e6);
   const r=await fetch(u),ct=r.headers.get('content-type')||'';if(!r.ok||!ct.startsWith('image/'))throw new Error('Image service busy (free limit: 1 image per 15s). Try again shortly.');
-  res.json({image:`data:${ct};base64,`+Buffer.from(await r.arrayBuffer()).toString('base64')});
- }catch(e){res.status(502).json({error:e.message})}});
+  res.json({image:`data:${ct};base64,`+Buffer.from(await r.arrayBuffer()).toString('base64'),src:'pollinations',warn})
+ }catch(e){res.status(502).json({error:e.message+(warn?' | Gemini: '+warn:'')})}});
 
 app.post('/api/chat',async(req,res)=>{
  if(needKey(res))return;let m=(req.body.messages||[]).filter(x=>x&&x.text).slice(-20);while(m.length&&m[0].role=='model')m.shift();if(!m.length)return res.status(400).json({error:'Empty message.'});

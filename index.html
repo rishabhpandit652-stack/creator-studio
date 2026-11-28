@@ -226,7 +226,7 @@ function deco(c,l){c.save();
 function arrow(c,l){c.save();c.translate(l.x+l.w/2,l.y+l.h/2);c.rotate(l.rot||-.3);const w=l.w,h=l.h;c.beginPath();c.moveTo(-w/2,-h*.2);c.lineTo(w*.1,-h*.2);c.lineTo(w*.1,-h/2);c.lineTo(w/2,0);c.lineTo(w*.1,h/2);c.lineTo(w*.1,h*.2);c.lineTo(-w/2,h*.2);c.closePath();c.fillStyle='#ff2d2d';c.fill();c.lineWidth=8;c.strokeStyle='#fff';c.lineJoin='round';c.stroke();c.restore()}
 function build(plan){if(kind=='poster')return buildPoster(plan);const W=TC.width,H=TC.height,p=PAL[plan.style]||PAL['Professional YouTube'];
 bg={c1:plan.colors?.[0]||p[0],c2:plan.colors?.[1]||p[1],userImg:plan.bgImg||upBg,accent:plan.accent||p[2],light:plan.style=='Minimal',split:!!plan.split&&plan.colors&&plan.colors.length>1};
-const hd=(plan.headline||'WATCH THIS').toUpperCase(),tcol=bg.light?'#111':'#fff',ph=photoCut||photo,behind=!!photoCut&&plan.textBehind!==false;let lay=plan.layout||'left';if(!behind&&lay=='center')lay='left';layers=[];
+const hd=(plan.headline||'WATCH THIS').toUpperCase(),tcol=bg.light?'#111':'#fff',ph=plan.artFull?null:(photoCut||photo),behind=!!photoCut&&!plan.artFull&&plan.textBehind!==false;let lay=plan.layout||'left';if(!behind&&lay=='center')lay='left';layers=[];
 const ws=hd.split(/\s+/);let lines;if(ws.length<2)lines=[hd];else if(ws.length==2)lines=hd.length<=11?[hd]:ws;else{const m=Math.ceil(ws.length/2);lines=[ws.slice(0,m).join(' '),ws.slice(m).join(' ')]}
 let pl=null;if(ph){const h2=H*1.02,w=ph.width/ph.height*h2;pl={t:'img',im:ph,x:lay=='center'?(W-w)/2:lay=='left'?W-w*.96:-w*.04,y:H-h2*.98,w,h:h2,glow:behind?26:0,gc:bg.accent}}
 const mg=W*.04;let tx,tw,ty,th,al;
@@ -246,18 +246,18 @@ function addDeco(plan,lay,W,H,tcol){const A=bg.accent,ys=['#ffd400','#ffe600'];
  if(plan.circle){const cx=Math.min(.9,Math.max(.1,(plan.circle.x||70)/100)),cy=Math.min(.9,Math.max(.1,(plan.circle.y||50)/100)),r=H*.16;layers.push({t:'circle',x:cx*W-r*1.2,y:cy*H-r,w:r*2.4,h:r*2,c:'#ff2d2d'})}
  if(plan.arrow){const ax=lay=='right'?W*.55:W*.3;layers.push({t:'carrow',x:ax,y:H*.78,w:W*.22,h:H*.2,c:'#ff2d2d'})}}
 function startProps(p){buildId++;fillProps(p,buildId)}
-async function fillProps(p,id){const list=(p.propPrompts||[]).slice(0,2),W=TC.width,H=TC.height,lay=p.layout||'left';
+async function fillProps(p,id){const list=p.artFull?[]:(p.propPrompts||[]).slice(0,2),W=TC.width,H=TC.height,lay=p.layout||'left';
 const slots=kind=='poster'?[[.05,.64],[.62,.66]]:{left:[[.05,.58],[.27,.62]],right:[[.58,.6],[.78,.58]],center:[[.04,.58],[.78,.58]]}[lay]||[[.05,.58],[.27,.62]];
-if(p.bgPrompt&&!p.bgImg){for(let t=0;t<2;t++){if(id!=buildId)return;$('ps').innerHTML='<span class="spin"></span> Making AI background (about 20s)...';
- try{const j=await api('/api/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:p.bgPrompt,portrait:H>W})});
-  const im=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=j.image});if(id!=buildId)return;p.bgImg=im;bg.userImg=im;draw();break}catch(e){await sleep(16000)}}
+if((p.artPrompt||p.bgPrompt)&&!p.bgImg){for(let t=0;t<2;t++){if(id!=buildId)return;$('ps').innerHTML='<span class="spin"></span> Making AI background (about 20s)...';
+ try{const j=await api('/api/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:p.artPrompt||p.bgPrompt,portrait:H>W,hq:true,kind,photo:photoFile?photoSmall():null})});
+  const im=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=j.image});if(id!=buildId)return;p.bgImg=im;bg.userImg=im;if(j.src=='gemini'&&p.artPrompt){p.artFull=true;build(p)}$('ps').innerHTML=j.src=='gemini'?'AI artwork by Gemini':'Free image used'+(j.warn?' (Gemini: '+String(j.warn).slice(0,80)+')':'');draw();break}catch(e){await sleep(16000)}}
  await sleep(15500)}
 for(let i=0;i<list.length;i++){if(id!=buildId)return;$('ps').innerHTML='<span class="spin"></span> Making PNG prop '+(i+1)+'/'+list.length+' (can take ~30s)…';
  for(let t=0;t<2;t++){try{const j=await api('/api/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:list[i]+', single isolated object, centered, plain solid bright green background, studio lighting, no text, no ground shadow',square:true})});
   const im=await cut(await (await fetch(j.image)).blob());if(id!=buildId)return;const s=H*(kind=='poster'?.22:.36);
   layers.push({t:'img',im,x:W*slots[i][0],y:H*slots[i][1]-s*.1,w:im.width/im.height*s,h:s,glow:16,gc:bg.accent});draw();break}catch(e){await sleep(16000)}}
  await sleep(15500)}
-if(id==buildId)$('ps').textContent=''}
+if(id==buildId&&!p.artFull)$('ps').textContent=''}
 function a6(c){c=c||'#ffffff';if(/^#[0-9a-f]{3}$/i.test(c))c='#'+c[1]+c[1]+c[2]+c[2]+c[3]+c[3];return /^#[0-9a-f]{6}$/i.test(c)?c:'#ffffff'}
 function draw(c=T,W=TC.width,H=TC.height,sl=true){c.save();c.filter=`brightness(${adj.b}) contrast(${adj.k})`;
 const g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,bg.c1);g.addColorStop(1,bg.c2);c.fillStyle=g;c.fillRect(0,0,W,H);
@@ -286,6 +286,7 @@ $('dp').onclick=()=>exp('image/png',(kind=='poster'?'poster':'thumbnail')+'.png'
 const api=async(u,o)=>{const r=await fetch(u,o),j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||'Server error '+r.status);return j};
 const toURL=f=>new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)});
 let photoFile=null;$('rf').addEventListener('change',e=>photoFile=e.target.files[0]||null);
+function photoSmall(){const im=photo,c=document.createElement('canvas'),k=Math.min(1,768/Math.max(im.width,im.height));c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);return c.toDataURL('image/jpeg',.85)}
 async function plan(vn){let ph=null;if(photoFile){const im=photo,c=document.createElement('canvas'),k=Math.min(1,768/Math.max(im.width,im.height));c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);ph=c.toDataURL('image/jpeg',.8)}
 return api('/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brief:$('br').value,style:$('sty').value,variation:vn,kind,styles:Object.keys(PAL),photo:ph})})}
 async function gen(n){if(!$('br').value.trim()){$('gs').textContent='Describe your video first.';return}
@@ -324,7 +325,7 @@ const[w,h2]=$('ar').value.split('x');TC.width=+w;TC.height=+h2;draw()}
 $('kd').onclick=e=>{const k=e.target.dataset.k;if(k&&k!=kind)setKind(k)};
 function buildPoster(plan){const W=TC.width,H=TC.height,p=PAL[plan.style]||PAL['Professional YouTube'];
 bg={c1:plan.colors?.[0]||p[0],c2:plan.colors?.[1]||p[1],userImg:plan.bgImg||upBg,accent:plan.accent||p[2],light:plan.style=='Minimal',split:!!plan.split&&plan.colors&&plan.colors.length>1};
-const hd=(plan.headline||'TITLE').toUpperCase(),tcol=bg.light?'#111':'#fff',ph=photoCut||photo,behind=!!photoCut;layers=[];
+const hd=(plan.headline||'TITLE').toUpperCase(),tcol=bg.light?'#111':'#fff',ph=plan.artFull?null:(photoCut||photo),behind=!!photoCut&&!plan.artFull;layers=[];
 const ws=hd.split(/\s+/),m=Math.ceil(ws.length/2),lines=ws.length>1?[ws.slice(0,m).join(' '),ws.slice(m).join(' ')]:[hd];
 const mg=W*.07,th=H*.26,sz=fit(lines,'Impact',W-2*mg,th,H*.16),lh=sz*1.04,y0=H*.06+(th-lines.length*lh)/2;
 lines.forEach((l,i)=>layers.push({t:'txt',s:l,x:W/2,y:y0+i*lh,sz,f:'Impact',c:i?bg.accent:tcol,glow:i?22:0,gc:bg.accent,al:'center',stroke:bg.light?0:Math.max(6,sz*.07)}));
